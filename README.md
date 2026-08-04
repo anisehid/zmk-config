@@ -8,6 +8,10 @@ The keymap browser is regenerated from the `.keymap` source files on every push,
 so it can never drift from what the firmware actually does. Every key sits at its
 real matrix position, and you can toggle matrix coordinates and raw ZMK bindings.
 
+> **Want your own layout?** Fork this repo, enable Actions, edit a `.keymap` file in
+> the browser, and download the firmware Actions builds for you. No toolchain, no
+> local build — see [Fork it to make your own keymap](#fork-it-to-make-your-own-keymap).
+
 ---
 
 ## Hardware
@@ -35,15 +39,52 @@ aren't wired to anything. Check the silkscreen on the controller if unsure.
 
 ## Getting firmware
 
-Firmware is built by GitHub Actions on every push. There is nothing to install
-locally.
+Firmware is built by GitHub Actions. There is no toolchain to install — you never
+need to compile anything on your own machine.
+
+### Just want the stock firmware
+
+Download the `firmware` artifact from the latest green run on the
+[Actions tab](https://github.com/anisehid/zmk-config/actions), or:
 
 ```bash
 gh run download --name firmware --dir zmk
 ```
 
-Or grab the `firmware` artifact from the [Actions tab](https://github.com/anisehid/zmk-config/actions).
-Artifacts expire after 90 days — rebuild rather than hunting for an old run.
+You need to be signed in to GitHub either way — artifacts can't be downloaded
+anonymously. They also expire after 90 days, so rebuild rather than hunting for an
+old run.
+
+### Fork it to make your own keymap
+
+This is the normal path if you want to change anything. You can do the whole thing
+in the browser.
+
+**1. Fork this repository** — the Fork button, top right.
+
+**2. Enable Actions on your fork.** GitHub disables workflows on new forks. Open the
+**Actions** tab and click *"I understand my workflows, go ahead and enable them"*.
+Nothing builds until you do this, and there's no warning if you skip it.
+
+**3. Edit a keymap.** In your fork, open
+`config/boards/shields/<shield>/<shield>.keymap`, click the pencil icon, make your
+change, and **Commit changes**. That push triggers a build on its own.
+
+**4. Or trigger a build without changing anything** — **Actions** → **Build** →
+**Run workflow** → pick your branch → **Run workflow**.
+
+**5. Wait ~10 minutes**, then download the `firmware` artifact from the finished run
+and flash as below.
+
+With the `gh` CLI, point it at your fork:
+
+```bash
+gh workflow run build.yml --repo <you>/zmk-config
+gh run download --repo <you>/zmk-config --name firmware --dir zmk
+```
+
+Forking doesn't change where the firmware comes from — `config/west.yml` still pins
+ZMK to `anisehid/zmk`, so you get the same source with your keymap on top.
 
 ### Flashing
 
@@ -68,6 +109,12 @@ success signal.** If the copy were rejected, the drive would still be mounted.
 
 If Bluetooth pairing misbehaves, flash [`tools/settings_reset.uf2`](tools/settings_reset.uf2)
 first, let it reboot, then flash the real firmware.
+
+### Your own keymap page (optional)
+
+To get the keymap browser on your fork: **Settings** → **Pages** → **Source:
+GitHub Actions**, then push once. It publishes to
+`https://<you>.github.io/zmk-config/` and regenerates itself on every push.
 
 ---
 
