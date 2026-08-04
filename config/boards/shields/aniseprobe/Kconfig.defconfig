@@ -1,0 +1,6 @@
+if SHIELD_ANISEPROBE
+
+config ZMK_KEYBOARD_NAME
+	default "ANISE-PROBE"
+
+endif
