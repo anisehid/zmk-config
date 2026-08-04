@@ -1,65 +1,9 @@
-# This file generates the GitHub Actions matrix
-# For simple board + shield combinations, add them
-# to the top level board and shield arrays, for more
-# control, add individual board + shield combinations to
-# the `include` property, e.g:
-#
-# board: [ "nice_nano_v2" ]
-# shield: [ "corne_left", "corne_right" ]
-# include:
-#   - board: bdn9_rev2
-#   - board: nice_nano_v2
-#     shield: reviung41
-#
+# Migration in progress: only the anisectlc + anise60b pair is on the new
+# upstream-ZMK / hardware-model-v2 path. The rest are added back once this
+# one is verified on real hardware. v1.0.0 remains the working release.
 ---
 include:
-  - board: anisectlp_01
-    shield: anise60b_left 
-  - board: anisectlp_01
-    shield: anise60b_right 
-  - board: anisectlp_01
-    shield: anise60bn_left 
-  - board: anisectlp_01
-    shield: anise60bn_right 
-  - board: anisectlp_01
-    shield: anise85a_left
-  - board: anisectlp_01
-    shield: anise85a_right
-  - board: anisectlp_01
-    shield: anise85n_left
-  - board: anisectlp_01
-    shield: anise85n_right
-  - board: anisectlc_10
-    shield: anise85n_left
-  - board: anisectlc_10
-    shield: anise85n_right
-  - board: anisectlc_10
+  - board: anisectlc/nrf52840/zmk
     shield: anise60b_left
-  - board: anisectlc_10
+  - board: anisectlc/nrf52840/zmk
     shield: anise60b_right
-  - board: anisectlc_10
-    shield: anise60bn_left
-  - board: anisectlc_10
-    shield: anise60bn_right
-  - board: anisectlc_10
-    shield: anise85a_left
-  - board: anisectlc_10
-    shield: anise85a_right
-
-  # Preset keymaps -- same hardware as anise60b, different layout.
-  - board: anisectlc_10
-    shield: anise60b_win_left
-  - board: anisectlc_10
-    shield: anise60b_win_right
-  - board: anisectlc_10
-    shield: anise60b_mac_left
-  - board: anisectlc_10
-    shield: anise60b_mac_right
-  - board: anisectlc_10
-    shield: anise60b_vim_left
-  - board: anisectlc_10
-    shield: anise60b_vim_right
-  - board: anisectlc_10
-    shield: anise60b_hhkb_left
-  - board: anisectlc_10
-    shield: anise60b_hhkb_right

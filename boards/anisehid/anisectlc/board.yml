@@ -1,0 +1,7 @@
+boards:
+  - name: anisectlc
+    vendor: anisehid
+    socs:
+      - name: nrf52840
+        variants:
+          - name: zmk

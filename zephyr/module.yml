@@ -1,0 +1,5 @@
+# Makes this config repo a Zephyr module, so the custom boards under boards/
+# are found by the upstream ZMK build without a ZMK fork.
+build:
+  settings:
+    board_root: .
