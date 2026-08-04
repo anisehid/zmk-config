@@ -130,6 +130,15 @@ def emit(shield, spec, positions, base_layers, order):
         conf.unlink()
     conf.symlink_to(f'../{BASE}/{BASE}.conf')
 
+    # Zephyr only looks for boards/<board>.overlay inside the shield being
+    # built, so a preset must carry its own copies or the RGB led_strip node
+    # (and therefore chosen zmk,underglow) goes missing.
+    boards = d / 'boards'
+    boards.mkdir(exist_ok=True)
+    for ov in sorted((SHIELDS / BASE / 'boards').glob('*.overlay')):
+        (boards / ov.name).write_text(
+            f'#include "../../{BASE}/boards/{ov.name}"\n')
+
     idx = {pos: i for i, pos in enumerate(positions)}
     rows = sorted({r for r, _ in positions})
     out = []
