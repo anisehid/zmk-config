@@ -4,3 +4,4 @@
 zmk/
 zmk-before/
 docs/
+__pycache__/

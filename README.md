@@ -194,6 +194,7 @@ preset pins that position explicitly.
 ## Repository layout
 
 ```
+.claude/skills/anise-zmk/       Claude Code skill (see below)
 build.yaml                      board + shield combinations CI builds
 config/west.yml                 pins ZMK to anisehid/zmk
 config/boards/shields/          shield definitions
@@ -214,6 +215,15 @@ open docs/index.html
 
 `docs/` is generated and git-ignored — CI rebuilds it on every push so the
 published page always matches the source.
+
+### Using Claude Code
+
+The repo ships a skill at `.claude/skills/anise-zmk/`. Clone or fork, open Claude
+Code here, and it activates on its own when you edit a keymap, add a preset, build
+firmware, or chase a key that won't respond. It carries the traps that cost real
+debugging time — the controller mismatch that looks like a dead board, why a failed
+copy on macOS means the flash worked, and why zero scan events rules out the keymap
+entirely.
 
 ---
 
