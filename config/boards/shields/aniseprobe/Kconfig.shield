@@ -1,2 +1,0 @@
-config SHIELD_ANISEPROBE
-	def_bool $(shields_list_contains,aniseprobe)
