@@ -1,0 +1,5 @@
+config SHIELD_ANISE60B_VIM_LEFT
+	def_bool $(shields_list_contains,anise60b_vim_left)
+
+config SHIELD_ANISE60B_VIM_RIGHT
+	def_bool $(shields_list_contains,anise60b_vim_right)

@@ -1,0 +1,4 @@
+/* Windows standard preset: same matrix and kscan as anise60b,
+ * only the keymap differs. */
+
+#include "../anise60b/anise60b_left.overlay"

@@ -1,0 +1,16 @@
+if SHIELD_ANISE60B_VIM_LEFT
+
+config ZMK_KEYBOARD_NAME
+	default "ANISE60B-VIM"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
+
+endif
+
+if SHIELD_ANISE60B_VIM_LEFT || SHIELD_ANISE60B_VIM_RIGHT
+
+config ZMK_SPLIT
+	default y
+
+endif
