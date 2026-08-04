@@ -1,0 +1,7 @@
+{
+  "base": "anise60b",
+  "preset": true,
+  "title": "HHKB style",
+  "blurb": "Control on Caps Lock and Backspace on the backslash key \u2014 the classic Happy Hacking arrangement.",
+  "artifact": "anise60b_hhkb_left / anise60b_hhkb_right"
+}

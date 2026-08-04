@@ -1,0 +1,7 @@
+{
+  "base": "anise60b",
+  "preset": true,
+  "title": "Vim navigation",
+  "blurb": "Caps Lock becomes Escape, and the Fn layer keeps HJKL as arrows so you never leave the home row.",
+  "artifact": "anise60b_vim_left / anise60b_vim_right"
+}

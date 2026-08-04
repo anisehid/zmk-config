@@ -1,0 +1,7 @@
+{
+  "base": "anise60b",
+  "preset": true,
+  "title": "Windows standard",
+  "blurb": "What almost every keyboard ships with: Ctrl at the far left, then Win and Alt. Backslash stays backslash.",
+  "artifact": "anise60b_win_left / anise60b_win_right"
+}

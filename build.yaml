@@ -33,4 +33,33 @@ include:
     shield: anise85n_left
   - board: anisectlc_10
     shield: anise85n_right
+  - board: anisectlc_10
+    shield: anise60b_left
+  - board: anisectlc_10
+    shield: anise60b_right
+  - board: anisectlc_10
+    shield: anise60bn_left
+  - board: anisectlc_10
+    shield: anise60bn_right
+  - board: anisectlc_10
+    shield: anise85a_left
+  - board: anisectlc_10
+    shield: anise85a_right
 
+  # Preset keymaps -- same hardware as anise60b, different layout.
+  - board: anisectlc_10
+    shield: anise60b_win_left
+  - board: anisectlc_10
+    shield: anise60b_win_right
+  - board: anisectlc_10
+    shield: anise60b_mac_left
+  - board: anisectlc_10
+    shield: anise60b_mac_right
+  - board: anisectlc_10
+    shield: anise60b_vim_left
+  - board: anisectlc_10
+    shield: anise60b_vim_right
+  - board: anisectlc_10
+    shield: anise60b_hhkb_left
+  - board: anisectlc_10
+    shield: anise60b_hhkb_right

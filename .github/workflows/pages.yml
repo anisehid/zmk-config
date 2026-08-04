@@ -1,0 +1,45 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'config/boards/shields/**'
+      - 'tools/pagegen/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# Regenerating the page from source is the whole point: the published layouts
+# are rebuilt from the .keymap files on every push, so they cannot go stale.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Render keymap browser
+        run: PYTHONPATH=tools/pagegen python3 tools/pagegen/build.py
+
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

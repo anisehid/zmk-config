@@ -1,0 +1,7 @@
+{
+  "base": "anise60b",
+  "preset": true,
+  "title": "macOS",
+  "blurb": "Modifiers in macOS order \u2014 Control, Option, Command \u2014 with Command mirrored on the right thumb.",
+  "artifact": "anise60b_mac_left / anise60b_mac_right"
+}

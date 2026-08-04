@@ -1,3 +1,6 @@
 .vscode/
 .DS_store
 *~*
+zmk/
+zmk-before/
+docs/
