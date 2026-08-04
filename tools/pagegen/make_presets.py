@@ -22,6 +22,7 @@ PRESETS = {
         'blurb': 'What almost every keyboard ships with: Ctrl at the far left, '
                  'then Win and Alt. Backslash stays backslash.',
         'default_layer': {
+            (2, 0): '&kp CAPS',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LGUI', (4, 2): '&kp LALT',
             (1, 14): '&kp BSLH',
         },
@@ -32,6 +33,7 @@ PRESETS = {
         'blurb': 'Modifiers in macOS order — Control, Option, Command — with '
                  'Command mirrored on the right thumb.',
         'default_layer': {
+            (2, 0): '&kp CAPS',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LALT', (4, 2): '&kp LGUI',
             (4, 11): '&kp RGUI', (4, 12): '&kp RALT', (4, 13): '&kp RCTRL',
             (1, 14): '&kp BSLH',
