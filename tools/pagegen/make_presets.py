@@ -22,6 +22,7 @@ PRESETS = {
         'blurb': 'What almost every keyboard ships with: Ctrl at the far left, '
                  'then Win and Alt. Backslash stays backslash.',
         'default_layer': {
+            (0, 0): '&gresc',
             (2, 0): '&kp CAPS',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LGUI', (4, 2): '&kp LALT',
             (1, 14): '&kp BSLH',
@@ -33,6 +34,7 @@ PRESETS = {
         'blurb': 'Modifiers in macOS order — Control, Option, Command — with '
                  'Command mirrored on the right thumb.',
         'default_layer': {
+            (0, 0): '&gresc',
             (2, 0): '&kp CAPS',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LALT', (4, 2): '&kp LGUI',
             (4, 11): '&kp RGUI', (4, 12): '&kp RALT', (4, 13): '&kp RCTRL',
@@ -49,6 +51,7 @@ PRESETS = {
         'blurb': 'Caps Lock becomes Escape, and the Fn layer keeps HJKL as '
                  'arrows so you never leave the home row.',
         'default_layer': {
+            (0, 0): '&gresc',
             (2, 0): '&kp ESC',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LGUI', (4, 2): '&kp LALT',
             (1, 14): '&kp BSLH',
@@ -65,6 +68,7 @@ PRESETS = {
         'blurb': 'Control on Caps Lock and Backspace on the backslash key — '
                  'the classic Happy Hacking arrangement.',
         'default_layer': {
+            (0, 0): '&gresc',
             (2, 0): '&kp LCTRL',
             (1, 14): '&kp BSPC',
             (4, 0): '&kp LCTRL', (4, 1): '&kp LALT', (4, 2): '&kp LGUI',
