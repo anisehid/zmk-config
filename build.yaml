@@ -33,4 +33,16 @@ include:
     shield: anise85n_left
   - board: anisectlc_10
     shield: anise85n_right
+  - board: anisectlc_10
+    shield: anise60b_left
+  - board: anisectlc_10
+    shield: anise60b_right
+  - board: anisectlc_10
+    shield: anise60bn_left
+  - board: anisectlc_10
+    shield: anise60bn_right
+  - board: anisectlc_10
+    shield: anise85a_left
+  - board: anisectlc_10
+    shield: anise85a_right
 
