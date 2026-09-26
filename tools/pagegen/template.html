@@ -138,6 +138,11 @@
       drift from the firmware. Keys sit at their real matrix position — a gap here is a gap
       in the transform.
     </p>
+    <p class="sub">
+      Every layout except <code>anise85n</code> can also be edited live, without flashing, in
+      <a href="https://zmk.studio">ZMK Studio</a> — connect the left half over USB and press the
+      <em>Studio unlock</em> key shown on the Keyboard layer.
+    </p>
   </header>
 
   <div class="controls">
@@ -190,7 +195,7 @@ const KC = {
   DLLR:"$",CARET:"^",GRAVE:"`",AT:"@",HASH:"#",UNDER:"_",
   PG_UP:"PgUp",PG_DN:"PgDn",HOME:"Home",END:"End",UP:"↑",DOWN:"↓",LEFT:"←",RIGHT:"→",
   SCLK:"ScrLk",SLCK:"ScrLk",KP_NUM:"NumLk",C_MUTE:"Mute",K_MUTE:"Mute",
-  C_VOL_DN:"Vol −",C_VOL_UP:"Vol +",C_BRI_DN:"Bright −",C_BRI_UP:"Bright +"
+  C_VOL_DN:"Vol −",C_VOL_UP:"Vol +",C_BRI_DN:"Bright −",C_BRI_UP:"Bright +",C_PP:"⏯ Play"
 };
 
 function describe(b){
@@ -208,6 +213,7 @@ function describe(b){
   if(/^bt_s\d$/.test(beh))return{legend:"BT "+beh.slice(4),cls:"sys"};
   if(beh==="out")return{legend:arg.replace("OUT_","Out "),cls:"sys"};
   if(beh==="rgb_ug")return{legend:"RGB "+arg.replace("RGB_",""),cls:"sys"};
+  if(beh==="studio_unlock")return{legend:"Studio unlock",cls:"sys"};
   return{legend:b.replace(/^&/,""),cls:""};
 }
 
@@ -306,10 +312,10 @@ function renderPanels(d,layer,changed,counts){
     ]));
     const pre=document.createElement("pre");
     pre.textContent=`gh run download --name firmware --dir zmk\n\n`+
-      `cp -X zmk/${d.artifact.split(' / ')[0]}-anisectlc_10-zmk.uf2  /Volumes/NRF52BOOT/\n`+
-      `cp -X zmk/${d.artifact.split(' / ')[1]}-anisectlc_10-zmk.uf2 /Volumes/NRF52BOOT/`;
+      `cp -X zmk/${d.artifact.split(' / ')[0]}-anisectlc_nrf52840_zmk-zmk.uf2  /Volumes/NRF52BOOT/\n`+
+      `cp -X zmk/${d.artifact.split(' / ')[1]}-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/`;
     host.appendChild(panel("use","Flash it",[
-      para("Both halves, one at a time — double-tap reset on each."),pre]));
+      para("Both halves, one at a time — double-tap reset on each. On an AniseCTL Pro controller use the anisectlp files instead."),pre]));
   }else{
     host.appendChild(panel("","This layout",[
       para(d.preset?"":"Shipped in the repo as the shield's own keymap."),
