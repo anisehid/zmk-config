@@ -13,7 +13,12 @@
 is unsure which they have, a wrong choice kills those two keys, not the board.
 
 Presets `anise60b_{win,mac,vim,hhkb}` reuse `anise60b`'s transform and kscan via
-`#include` and replace only the keymap. Built for `anisectlc_10` only.
+`#include` and replace only the keymap. Built for both controllers.
+
+Physical layouts (`<shield>-layouts.dtsi`, needed by Studio) exist for
+`anise60b`, `anise60bn` and `anise85a`, generated from `anisehid/anise-kbd`
+`desc-gen/desc/{anise60b,anise60bnav,anise85a}.json`. `anise85n` has none: its
+transform rows (13 top, 13 bottom) disagree with `anise85n.json` (15, 12).
 
 ## Matrix pins
 
@@ -22,7 +27,7 @@ All shields drive rows on `anise_ctl` 11–15 (85-series adds 16). Columns are
 
 The nexus maps those to entirely different GPIOs per controller:
 
-| `anise_ctl` | `anisectlp_01` | `anisectlc_10` |
+| `anise_ctl` | `anisectlp` | `anisectlc` |
 |---|---|---|
 | 11 (row 0) | P0.04 | P1.06 |
 | 12 (row 1) | P1.13 | P0.20 |
@@ -32,12 +37,15 @@ The nexus maps those to entirely different GPIOs per controller:
 | 21 (col 0) | P0.07 | P0.08 |
 | 22 (col 1) | **P0.09 — NFC** | P0.28 |
 
-Full maps live in `app/boards/arm/anisectl{p,c}/anisectl_pins.dtsi` in the
-`anisehid/zmk` fork, not in this repo.
+Full maps live in `boards/anisehid/anisectl{p,c}/anisectl_pins.dtsi`, copied
+unchanged from the old `anisehid/zmk` fork. Both controllers route `anise_ctl`
+31 (85-series column 15) to P0.12, and `anise_ctl` 2 (RGB data) to P0.26.
 
-Peripherals on `anisectlc`: LED P1.10, ext-power P1.09, I²C P0.15/P0.17,
-UART P0.06/P0.08 (disabled), RGB SPI P0.26/P0.12/P0.22, `pinmux.c` forces P0.05
-to input.
+Peripherals on `anisectlc`: LED P1.10, ext-power P1.09 (active low), battery
+AIN2. On `anisectlp`: LED P0.15, ext-power P0.13 (active high, 50 ms init delay),
+battery AIN1. RGB is SPI MOSI P0.26 only, via pinctrl, on both. The fork's
+`pinmux.c` (P0.05 as input) was not ported — the matrix configures that pin
+itself. The `anisectlp` port is untested on hardware.
 
 ## Layers
 
@@ -46,11 +54,21 @@ to input.
 | 0 | `default_layer` | — |
 | 1 | `fn_layer` | hold `&mo 1` at `(4,9)`, right half |
 | 2 | `fn2_layer` | hold `&mo 2` at `(4,6)`, left half |
-| 3 | `kbd_func_layer` | hold layer 2, then `&mo 3` at `(4,0)` |
+| 3 | `kbd_func_layer` | 60-series: hold layer 2, then `&mo 3` at `(4,0)`. 85-series: `&mo 3` at `(5,1)` on the base layer |
 
-Layer 3 is a three-key chord. Its Bluetooth controls: `Q`–`T` select profiles 0–4
+Layers carry `display-name`s (Base/Fn1/Fn2/Fn3) for Studio.
+
+On the 60-series layer 3 is a three-key chord. Its Bluetooth controls: `Q`–`T` select profiles 0–4
 via the `bt_s0`–`bt_s4` macros (which also switch output to BLE), `S` switches to
 USB, `D` clears the current pairing.
+
+## ZMK Studio
+
+Enabled on every left half except `anise85n`, via `snippet: studio-rpc-usb-uart`
+and `cmake-args: -DCONFIG_ZMK_STUDIO=y` in `build.yaml`. `&studio_unlock` sits on
+layer 3: position `(0,0)` (Esc) on the 85-series, `(0,14)` (Backspace) on the
+60-series, whose layer-3 Esc slot is the RGB toggle. Presets inherit it from
+`anise60b`.
 
 ## Bootloader
 
@@ -68,20 +86,25 @@ bootloader and every firmware here needs its flash layout updated to match.
 ## Repo layout
 
 ```
+boards/anisehid/anisectl{c,p}/    controller boards (hardware model v2)
+zephyr/module.yml                 registers boards/ with the ZMK build
 build.yaml                        board + shield matrix for CI
-config/west.yml                   pins ZMK to anisehid/zmk (Zephyr 3.0 fork)
+config/west.yml                   upstream zmkfirmware/zmk, main
 config/boards/shields/<shield>/
-  <shield>.dtsi                   matrix transform
+  <shield>.dtsi                   matrix transform; chooses the physical layout
+  <shield>-layouts.dtsi           physical layout for Studio (generated)
   <shield>.keymap                 layers
   <shield>_{left,right}.overlay   kscan pins
   <shield>.conf                   Kconfig; the _left/_right ones are symlinks
-  boards/<board>.overlay          per-controller RGB wiring
+  boards/<board>_nrf52840_zmk.overlay  per-controller RGB wiring
+                                  (the *_10 / *_01 overlays are dead leftovers)
+tools/make_layouts.py             physical layouts from AniseHID descs
 tools/pagegen/
   parse.py                        shields -> JSON, validates binding counts
   make_presets.py                 generates the preset shields
   build.py                        renders docs/index.html
   template.html                   page markup and styles
-.github/workflows/build.yml       firmware, 24 combos
+.github/workflows/build.yml       calls upstream build-user-config.yml; 32 combos
 .github/workflows/pages.yml       keymap page, main only
 ```
 

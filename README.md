@@ -8,9 +8,10 @@ The keymap browser is regenerated from the `.keymap` source files on every push,
 so it can never drift from what the firmware actually does. Every key sits at its
 real matrix position, and you can toggle matrix coordinates and raw ZMK bindings.
 
-> **Want your own layout?** Fork this repo, enable Actions, edit a `.keymap` file in
-> the browser, and download the firmware Actions builds for you. No toolchain, no
-> local build — see [Fork it to make your own keymap](#fork-it-to-make-your-own-keymap).
+> **Want your own layout?** Change keys live from the browser with
+> [ZMK Studio](#zmk-studio) — no build, no flash. Or fork this repo, edit a
+> `.keymap` file, and download the firmware Actions builds for you — see
+> [Fork it to make your own keymap](#fork-it-to-make-your-own-keymap).
 
 ---
 
@@ -26,10 +27,15 @@ real matrix position, and you can toggle matrix coordinates and raw ZMK bindings
 Two controllers, and **they are not interchangeable** — each maps the `anise_ctl`
 connector to completely different GPIOs:
 
-| Controller | Built for |
-|---|---|
-| `anisectlp_01` | all four shields |
-| `anisectlc_10` | all four shields, plus the presets |
+| Controller | Board name | Built for |
+|---|---|---|
+| AniseCTL Pro | `anisectlp` | all four shields, plus the presets |
+| AniseCTL community | `anisectlc` | all four shields, plus the presets |
+
+Firmware is built on upstream [ZMK](https://zmk.dev), with both controller
+definitions living in this repo (`boards/anisehid/`). Only `anise85a` on
+`anisectlc` has been verified on real hardware so far — everything else
+compiles but is untested, and the `anisectlp` board port is new.
 
 Flashing the wrong one gives you a keyboard that enumerates over USB and
 advertises over Bluetooth but where **no key works** — the matrix scans pins that
@@ -83,8 +89,9 @@ gh workflow run build.yml --repo <you>/zmk-config
 gh run download --repo <you>/zmk-config --name firmware --dir zmk
 ```
 
-Forking doesn't change where the firmware comes from — `config/west.yml` still pins
-ZMK to `anisehid/zmk`, so you get the same source with your keymap on top.
+Forking doesn't change where the firmware comes from — `config/west.yml` pulls
+upstream ZMK, and the controller definitions come from this repo's `boards/`, so
+you get the same source with your keymap on top.
 
 ### Flashing
 
@@ -97,11 +104,14 @@ Each half is flashed separately.
    may not reconnect to the left, and its keys stay dead
 
 ```bash
-cp -X zmk/anise60b_left-anisectlc_10-zmk.uf2  /Volumes/NRF52BOOT/
-cp -X zmk/anise60b_right-anisectlc_10-zmk.uf2 /Volumes/NRF52BOOT/
+cp -X zmk/anise60b_left-anisectlc_nrf52840_zmk-zmk.uf2  /Volumes/NRF52BOOT/
+cp -X zmk/anise60b_right-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/
 ```
 
-Filenames are `<shield>_<side>-<controller>-zmk.uf2`. Don't cross left and right.
+Filenames are `<shield>_<side>-<controller>_nrf52840_zmk-zmk.uf2`. Don't cross
+left and right, and flash **both halves from the same build** — firmware from
+before the upstream-ZMK move (`…-anisectlc_10-zmk.uf2`) can't pair with the new
+firmware. On Linux the drive mounts under `/run/media/$USER/NRF52BOOT/`.
 
 **On macOS, use `cp -X` rather than dragging in Finder.** Finder writes AppleDouble
 metadata that the bootloader's small FAT volume can't handle. Either way you'll see
@@ -134,14 +144,47 @@ keymap.
 | `anise60b_hhkb` | Ctrl on Caps, Backspace on the backslash key |
 
 ```bash
-cp -X zmk/anise60b_mac_left-anisectlc_10-zmk.uf2 /Volumes/NRF52BOOT/
+cp -X zmk/anise60b_mac_left-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/
 ```
 
 Preview any of them, with changes against the base layout highlighted, in the
 [keymap browser](https://anisehid.github.io/zmk-config/).
 
-Presets are built for `anisectlc_10` only. To add `anisectlp_01`, append the pairs
-to `build.yaml`.
+Presets are built for both controllers.
+
+---
+
+## ZMK Studio
+
+Every keyboard except `anise85n` supports [ZMK Studio](https://zmk.studio): change
+keys from a browser or desktop app over USB, and they apply instantly — no build,
+no flash. It's ZMK's answer to VIA.
+
+1. **Open Studio** — <https://zmk.studio> in Chrome, Edge or Chromium, or the
+   desktop app from <https://zmk.studio/download>. **Firefox can't** — it has no
+   Web Serial.
+2. **Connect the left half over USB** and pick your keyboard from the list.
+3. **Unlock** when asked, by pressing the unlock key on the keyboard:
+
+   | Keyboard | Unlock |
+   |---|---|
+   | `anise85a` | hold `Fn3` (bottom row, 2nd from left), press `Esc` |
+   | `anise60b`, presets, `anise60bn` | hold `Fn2` + bottom-left key (layer 3), press `Backspace` |
+
+4. Pick a layer, click a key, choose its new function. Changes apply at once but
+   are temporary until you click **Save**; **Restore Stock Settings** returns to
+   the keymap built into the firmware.
+
+Things to know:
+
+- **Once you use Studio, the keyboard ignores later `.keymap` edits** until you
+  run *Restore Stock Settings* — the keymap now lives in the keyboard's memory.
+- **Studio can't export yet.** There is no way to save your Studio keymap to a
+  file; if you want it in git, copy the changes into the `.keymap` by hand.
+- **Linux: Chromium from Snap can't see the keyboard** until you run
+  `sudo snap connect chromium:raw-usb` and restart it. You also need access to
+  `/dev/ttyACM*`, usually via the `dialout` group.
+- `anise85n` has no Studio support yet — see [Known issues](#known-issues).
 
 ---
 
@@ -167,7 +210,7 @@ The parser checks this and reports mismatches on the page.
 | 0 — base | default |
 | 1 — Fn | hold `Fn1` (right half, next to Space) |
 | 2 — Fn2 | hold `Fn2` (left half, right of Space) |
-| 3 — Keyboard | hold `Fn2` **and** the bottom-left key |
+| 3 — Keyboard | 60-series: hold `Fn2` **and** the bottom-left key. 85-series: hold `Fn3` (bottom row, 2nd from left) |
 
 Layer 3 holds the Bluetooth, RGB and output controls:
 
@@ -178,6 +221,21 @@ Layer 3 holds the Bluetooth, RGB and output controls:
 | `D` | clear the current profile's pairing |
 | number row | RGB toggle, hue, saturation, brightness |
 | `Tab` | cycle RGB effect |
+
+The layer nodes carry a `display-name`, which is what Studio shows.
+
+### Physical layouts are generated
+
+Studio draws the keyboard from `<shield>-layouts.dtsi`, one entry per matrix
+position in transform order. They're generated from AniseHID's layout
+descriptions — don't hand-edit them:
+
+```bash
+PYTHONPATH=tools/pagegen python3 tools/make_layouts.py
+```
+
+The script checks every row against the transform and refuses to write a layout
+that doesn't match. If you change a transform, regenerate.
 
 ### Presets are generated
 
@@ -197,13 +255,17 @@ preset pins that position explicitly.
 
 ```
 .claude/skills/anise-zmk/       Claude Code skill (see below)
+boards/anisehid/anisectl{c,p}/  controller definitions (pin maps, flash layout)
+zephyr/module.yml               makes this repo a Zephyr module, so boards/ is found
 build.yaml                      board + shield combinations CI builds
-config/west.yml                 pins ZMK to anisehid/zmk
+config/west.yml                 pulls upstream ZMK
 config/boards/shields/          shield definitions
   <shield>.dtsi                 matrix transform
+  <shield>-layouts.dtsi         physical layout for Studio (generated)
   <shield>.keymap               layers
   <shield>_{left,right}.overlay kscan pin assignment
-  boards/<board>.overlay        per-controller RGB wiring
+  boards/<board>_nrf52840_zmk.overlay  per-controller RGB wiring
+tools/make_layouts.py           physical layout generator
 tools/pagegen/                  keymap page + preset generator
 tools/settings_reset.uf2        clears Bluetooth pairings
 ```
@@ -240,7 +302,22 @@ the transform is missing a position or the keymap has a stray binding.
 SoftDevice S140 6.1.1, which places the application at `0x26000`. A newer bootloader
 moves it to `0x27000` and every `.uf2` here silently stops working.
 
-**`CONFIG_NFCT_PINS_AS_GPIOS=y` is required** and set in the shield `.conf` files.
-P0.09 and P0.10 are NFC antenna pins at reset and cannot drive the matrix until
-freed — both controllers route a matrix line through P0.09. The upstream board
-defconfigs are missing this.
+**`anise85n` has no Studio support, and its matrix may be wrong.** Its transform
+has 13 keys in the top row and 13 in the bottom, but AniseHID's layout
+description for it has 15 and 12 — the same top row as `anise85a`, including the
+knob. Someone with an `anise85n` needs to check which is right before it gets a
+physical layout. If your 85-key board's F-row types one key off, it is probably
+an `anise85a`: count the top row (Esc, F1–F12, Del and the knob = 15).
+
+**The `anise85a` knob only presses.** Its press is a normal key (Play/Pause by
+default); turning it sends no signal to any controller pin, so rotation can't be
+bound in firmware.
+
+**The old `boards/*_10.overlay` and `*_01.overlay` files are unused.** They
+belong to the pre-upstream build; the live RGB wiring is in
+`boards/<board>_nrf52840_zmk.overlay`.
+
+**`CONFIG_NFCT_PINS_AS_GPIOS=y` is required** and set in both controllers'
+defconfigs and the shield `.conf` files. P0.09 and P0.10 are NFC antenna pins at
+reset and cannot drive the matrix until freed — both controllers route a matrix
+line through P0.09.

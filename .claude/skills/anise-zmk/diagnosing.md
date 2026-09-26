@@ -49,19 +49,28 @@ Two specific traps:
 ## 4. Get scan-level evidence
 
 This is the step that separates software from hardware, and it is decisive.
-Enable logging in the shield's `.conf`:
+Add the logging snippet to that half's entry in `build.yaml`:
 
-```
-CONFIG_ZMK_USB_LOGGING=y
-CONFIG_ZMK_LOG_LEVEL_DBG=y
+```yaml
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85a_left
+    snippet: zmk-usb-logging
 ```
 
-Build, flash the **left** half (it's the central and owns USB), then:
+Build and flash. Either half logs over its own USB port, so a right-half key can
+be debugged by plugging the right half in directly. On Linux you can read it
+without sudo if you're in `dialout`:
 
 ```bash
-ls /dev/cu.usbmodem*
-screen $(ls /dev/cu.usbmodem* | head -1) 115200    # ctrl-a k to quit
+for t in /dev/ttyACM*; do echo "$t $(udevadm info -q property -n $t | grep ^ID_MODEL=)"; done
+stty -F /dev/ttyACM1 115200 raw -echo; timeout 120 cat /dev/ttyACM1 > scan.log
 ```
+
+On macOS: `screen $(ls /dev/cu.usbmodem* | head -1) 115200` (ctrl-a k to quit).
+
+The log only carries what happens while the port is open — start reading
+*before* asking anyone to press keys, and have them confirm a known-good key
+first so an empty log means something.
 
 Press a suspect key, then a known-good one.
 
@@ -83,8 +92,12 @@ terminal you're reading. Press a dead key and see which row index fires.
 Include the known-good rows as a control — if they don't report their expected
 index, the probe itself is wrong and its result means nothing.
 
-This was done once and removed after; recover it with
-`git log --all --oneline -- config/boards/shields/aniseprobe`.
+This was done once for a pin map and removed after; recover it with
+`git log --all --oneline -- config/boards/shields/aniseprobe`. A later probe,
+`anise85aprobe` (right half, standalone, matrix plus every spare pin through
+`zmk,kscan-composite` and `zmk,kscan-gpio-direct`), looked for the knob's
+encoder; recover it the same way. It needs `CONFIG_ZMK_EXT_POWER=n` when probing
+`anise_ctl` 38, which is the ext-power control pin.
 
 ## 6. Isolate with a controller swap
 
