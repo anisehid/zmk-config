@@ -1,6 +1,7 @@
-# Migration in progress: only the anisectlc + anise60b pair is on the new
-# upstream-ZMK / hardware-model-v2 path. The rest are added back once this
-# one is verified on real hardware. v1.0.0 remains the working release.
+# Migration in progress: only anisectlc boards are on the new upstream-ZMK /
+# hardware-model-v2 path. anise85a on anisectlc is verified on real hardware
+# (2026-09-26); anise60b builds but is untested. The rest are added back once
+# ported. v1.0.0 remains the working release.
 ---
 include:
   - board: anisectlc/nrf52840/zmk
@@ -11,7 +12,3 @@ include:
     shield: anise85a_left
   - board: anisectlc/nrf52840/zmk
     shield: anise85a_right
-  # Temporary: finds the anise85a knob's encoder pins. Remove once found.
-  - board: anisectlc/nrf52840/zmk
-    shield: anise85aprobe
-    snippet: zmk-usb-logging

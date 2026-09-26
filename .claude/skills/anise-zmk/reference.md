@@ -94,3 +94,13 @@ hand. It returns per-shield positions, layers, and any binding-count warnings.
 Adding a preset means editing `PRESETS` in `make_presets.py`, running it, and
 adding the two shield entries to `build.yaml`. The generator writes the Kconfig
 files, overlays, conf symlinks, `boards/` copies, keymap, and `preset.json`.
+
+## anise85a knob
+
+The top-right knob's **press** is an ordinary matrix key at keymap position
+`(0,15)`. Its **rotation** was probed on 2026-09-26 (anisectlc, right half,
+USB-logging probe build): nothing on the matrix, and nothing on any
+non-matrix `anise_ctl` pin (1–5, 32–38) with either pull-ups or pull-downs.
+The encoder's A/B contacts do not reach the controller on that board, so no
+firmware change can bind rotation. Recover the probe with
+`git log --all --oneline -- config/boards/shields/anise85aprobe`.
