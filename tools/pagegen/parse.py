@@ -33,7 +33,7 @@ def read_layers(shield_dir, name):
     km = strip_comments((shield_dir / f'{name}.keymap').read_text())
     body = km.split('compatible = "zmk,keymap"')[1]
     layers = []
-    for lname, binds in re.findall(r'(\w+)\s*\{\s*bindings\s*=\s*<(.*?)>\s*;',
+    for lname, binds in re.findall(r'(\w+)\s*\{[^{}]*?\bbindings\s*=\s*<(.*?)>\s*;',
                                    body, flags=re.S):
         toks = [' '.join(t.split()) for t in
                 re.findall(r'&\s*[\w-]+(?:\s+[A-Za-z0-9_()]+)*', binds)]
