@@ -10,6 +10,7 @@ The failure pattern narrows the cause more than anything else:
 | Symptom | Most likely cause |
 |---|---|
 | Detected over USB and visible over Bluetooth, but **no key at all** works | Wrong controller firmware — `anisectlp_01` vs `anisectlc_10` |
+| **Left works, right half types nothing** after a flash | Split link not re-established — power-cycle the right half |
 | One **whole row or column** dead, rest fine | Pin-level: NFC pins, a peripheral claiming the pin, or wiring |
 | **Scattered** keys dead | Hardware — switches, sockets, diodes |
 | Keys type the **wrong character** | Keymap or transform |

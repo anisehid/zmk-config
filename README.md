@@ -93,6 +93,8 @@ Each half is flashed separately.
 1. Double-tap the reset button — a USB drive named `NRF52BOOT` appears
 2. Copy the matching `.uf2` onto it
 3. It reboots itself and the drive disappears
+4. Power-cycle the **right** half after flashing either side — until you do, it
+   may not reconnect to the left, and its keys stay dead
 
 ```bash
 cp -X zmk/anise60b_left-anisectlc_10-zmk.uf2  /Volumes/NRF52BOOT/
