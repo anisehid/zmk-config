@@ -7,3 +7,11 @@ include:
     shield: anise60b_left
   - board: anisectlc/nrf52840/zmk
     shield: anise60b_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85a_left
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85a_right
+  # Temporary: finds the anise85a knob's encoder pins. Remove once found.
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85aprobe
+    snippet: zmk-usb-logging

@@ -1,0 +1,3 @@
+# Temporary probe: finds the anise85a knob's encoder pins. Delete once found.
+config SHIELD_ANISE85APROBE
+	def_bool $(shields_list_contains,anise85aprobe)
