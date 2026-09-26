@@ -5,12 +5,13 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include "anise60b-layouts.dtsi"
 
 / {
 	chosen {
 	    zmk,kscan = &kscan0;
 
-	    zmk,matrix_transform = &default_transform;
+	    zmk,physical-layout = &anise60b_layout;
 	};
 
 	/* 
@@ -29,4 +30,8 @@ RC(3,0) /**/  RC(3,2) RC(3,3) RC(3,4) RC(3,5)    RC(3,6)  /*****/    /*x*/    RC
 RC(4,0)  RC(4,1)  RC(4,2) /**/ /**/   RC(4,5)    RC(4,6)  /*****/    /*x*/   RC(4,8)  RC(4,9) /**/    RC(4,11) RC(4,12) RC(4,13)  /**/
 		>;
 	};
+};
+
+&anise60b_layout {
+	transform = <&default_transform>;
 };

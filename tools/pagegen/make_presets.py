@@ -82,6 +82,9 @@ def strip_comments(s):
     return re.sub(r'//[^\n]*', ' ', s)
 
 
+DISPLAY_NAMES = {}  # layer node -> display-name, filled by load_base()
+
+
 def load_base():
     dtsi = (SHIELDS / BASE / f'{BASE}.dtsi').read_text()
     raw = dtsi.split('map = <')[1].split('>;')[0]
@@ -92,8 +95,11 @@ def load_base():
     body = km.split('compatible = "zmk,keymap"')[1]
     layers = {}
     order = []
-    for lname, binds in re.findall(r'(\w+)\s*\{\s*bindings\s*=\s*<(.*?)>\s*;',
-                                   body, flags=re.S):
+    for lname, props, binds in re.findall(
+            r'(\w+)\s*\{([^{}]*?)\bbindings\s*=\s*<(.*?)>\s*;', body, flags=re.S):
+        name = re.search(r'display-name\s*=\s*"([^"]*)"', props)
+        if name:
+            DISPLAY_NAMES[lname] = name.group(1)
         toks = [' '.join(t.split()) for t in
                 re.findall(r'&\s*[\w-]+(?:\s+[A-Za-z0-9_()]+)*', binds)]
         layers[lname] = toks
@@ -158,7 +164,9 @@ def emit(shield, spec, positions, base_layers, order):
         for r in rows:
             cells = [binds[idx[(r, c)]] for c in range(16) if (r, c) in idx]
             lines.append('    ' + '  '.join(f'{b:<12}' for b in cells).rstrip())
-        out.append(f'        {lname} {{\n            bindings = <\n'
+        name = (f'            display-name = "{DISPLAY_NAMES[lname]}";\n'
+                if lname in DISPLAY_NAMES else '')
+        out.append(f'        {lname} {{\n{name}            bindings = <\n'
                    + '\n'.join(lines) + '\n            >;\n        };')
 
     (d / f'{shield}.keymap').write_text(

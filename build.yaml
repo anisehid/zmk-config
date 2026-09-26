@@ -1,17 +1,102 @@
-# Migration in progress: only anisectlc boards are on the new upstream-ZMK /
-# hardware-model-v2 path. anise85a on anisectlc is verified on real hardware
-# (2026-09-26); anise60b builds but is untested. The rest are added back once
-# ported. v1.0.0 remains the working release.
+# Built on upstream ZMK with this repo's boards (boards/anisehid/) as a Zephyr
+# module. Left halves carry ZMK Studio (https://zmk.studio); unlock is Fn3+Esc
+# on the 85-series and Fn2+LShift+Backspace on the 60-series.
+#
+# Hardware-verified: anise85a on anisectlc (2026-09-26). Everything else
+# builds but is untested, including the whole anisectlp board port.
+# anise85n has no Studio: its transform disagrees with AniseHID's layout
+# description (see tools/make_layouts.py).
 ---
 include:
   - board: anisectlc/nrf52840/zmk
     shield: anise60b_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: anisectlc/nrf52840/zmk
     shield: anise60b_right
   - board: anisectlc/nrf52840/zmk
+    shield: anise60b_win_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_win_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_mac_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_mac_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_vim_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_vim_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_hhkb_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60b_hhkb_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60bn_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise60bn_right
+  - board: anisectlc/nrf52840/zmk
     shield: anise85a_left
-    # ZMK Studio (https://zmk.studio): central half only. Unlock with Fn3+Esc.
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: anisectlc/nrf52840/zmk
     shield: anise85a_right
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85n_left
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85n_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_win_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_win_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_mac_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_mac_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_vim_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_vim_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_hhkb_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60b_hhkb_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60bn_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise60bn_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85a_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85a_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85n_left
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85n_right

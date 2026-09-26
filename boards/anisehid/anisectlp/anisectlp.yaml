@@ -1,0 +1,14 @@
+identifier: anisectlp/nrf52840/zmk
+name: Anise Controller P
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+supported:
+  - adc
+  - usb_device
+  - ble
+  - pwm
+  - watchdog
