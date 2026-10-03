@@ -142,7 +142,7 @@ replaces the keymap.
 | `anise60b_mac` | Ctrl / Option / Command, Command mirrored on the right |
 | `anise60b_vim` | Caps → Esc, Fn layer keeps HJKL as arrows |
 | `anise60b_hhkb` | Ctrl on Caps, Backspace on the backslash key |
-| `anise85a_keyd` | The Linux keyd remap in firmware: LCtrl ↔ LAlt, Backspace on backslash, right Alt holds a symbol/arrow layer, right Ctrl holds F-keys |
+| `anise60b_keyd` | The Linux keyd remap in firmware: Caps → Esc, LCtrl ↔ LAlt, right Alt holds a symbol/arrow layer, right Ctrl holds F-keys |
 
 ```bash
 cp -X zmk/anise60b_mac_left-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/
@@ -169,7 +169,7 @@ no flash. It's ZMK's answer to VIA.
 
    | Keyboard | Unlock |
    |---|---|
-   | `anise85a`, `anise85a_keyd` | hold `Fn3` (bottom row, 2nd from left), press `Esc` |
+   | `anise85a` | hold `Fn3` (bottom row, 2nd from left), press `Esc` |
    | `anise60b`, presets, `anise60bn` | hold `Fn2` + bottom-left key (layer 3), press `Backspace` |
 
 4. Pick a layer, click a key, choose its new function. Changes apply at once but

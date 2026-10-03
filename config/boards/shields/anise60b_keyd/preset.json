@@ -1,0 +1,7 @@
+{
+  "base": "anise60b",
+  "preset": true,
+  "title": "keyd",
+  "blurb": "The Linux keyd remap in firmware: Caps is Escape, Ctrl and Alt swapped, right Alt holds symbols and arrows, right Ctrl holds F-keys.",
+  "artifact": "anise60b_keyd_left / anise60b_keyd_right"
+}

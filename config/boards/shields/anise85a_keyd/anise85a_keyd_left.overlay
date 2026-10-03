@@ -1,4 +1,0 @@
-/* keyd preset: same matrix and kscan as anise85a,
- * only the keymap differs. */
-
-#include "../anise85a/anise85a_left.overlay"

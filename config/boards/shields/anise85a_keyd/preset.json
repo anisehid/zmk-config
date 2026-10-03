@@ -1,7 +1,0 @@
-{
-  "base": "anise85a",
-  "preset": true,
-  "title": "keyd",
-  "blurb": "The Linux keyd remap in firmware: Ctrl and Alt swapped, Backspace on backslash, right Alt holds symbols and right Ctrl holds F-keys.",
-  "artifact": "anise85a_keyd_left / anise85a_keyd_right"
-}
