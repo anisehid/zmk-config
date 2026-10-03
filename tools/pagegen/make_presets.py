@@ -82,7 +82,7 @@ PRESETS = {
         'name': 'ANISE60B-KEYD',
         'blurb': 'The Linux keyd remap in firmware: Caps is Escape, Ctrl and '
                  'Alt swapped, Fn1 holds '
-                 'symbols and arrows, Fn2 holds F-keys (plus Ctrl for Fn3).',
+                 'symbols, arrows and F1-F12, Fn2 holds F-keys, Fn1+Fn2 is Fn3.',
         'default_layer': {
             (0, 0): '&kp ESC',
             (4, 0): '&kp LALT', (4, 2): '&kp LCTRL',
