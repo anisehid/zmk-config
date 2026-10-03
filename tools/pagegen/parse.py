@@ -29,15 +29,25 @@ def read_positions(shield_dir, name, base=None):
             for r, c in re.findall(r'RC\((\d+),\s*(\d+)\)', strip_comments(raw))]
 
 
+def read_geometry(name):
+    """Physical key rects [w, h, x, y] (1u = 100) from <name>-layouts.dtsi, or None."""
+    f = SHIELDS_DIR / name / f'{name}-layouts.dtsi'
+    if not f.exists():
+        return None
+    return [[int(v) for v in m] for m in re.findall(
+        r'&key_physical_attrs\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)', strip_comments(f.read_text()))]
+
+
 def read_layers(shield_dir, name):
     km = strip_comments((shield_dir / f'{name}.keymap').read_text())
     body = km.split('compatible = "zmk,keymap"')[1]
     layers = []
-    for lname, binds in re.findall(r'(\w+)\s*\{[^{}]*?\bbindings\s*=\s*<(.*?)>\s*;',
-                                   body, flags=re.S):
+    for lname, props, binds in re.findall(
+            r'(\w+)\s*\{([^{}]*?)\bbindings\s*=\s*<(.*?)>\s*;', body, flags=re.S):
+        label = re.search(r'display-name\s*=\s*"([^"]*)"', props)
         toks = [' '.join(t.split()) for t in
                 re.findall(r'&\s*[\w-]+(?:\s+[A-Za-z0-9_()]+)*', binds)]
-        layers.append({'name': lname, 'bindings': toks})
+        layers.append({'name': lname, 'label': label and label.group(1), 'bindings': toks})
     return layers
 
 
@@ -59,7 +69,13 @@ def parse_shield(shield_dir):
         # ZMK indexes bindings positionally, so surplus entries are dropped
         # and missing ones leave the tail unbound. Mirror that here.
         layer['bindings'] = (layer['bindings'] + ['&none'] * max(0, -extra))[:len(positions)]
-    return {'positions': positions, 'layers': layers, 'warnings': warnings, **meta}
+    geom = read_geometry(meta.get('base', name))
+    if geom and len(geom) != len(positions):
+        print(f'  ! {name}: layout has {len(geom)} keys, transform {len(positions)}; '
+              'drawing a grid instead', file=sys.stderr)
+        geom = None
+    return {'positions': positions, 'geom': geom, 'layers': layers,
+            'warnings': warnings, **meta}
 
 
 def main():

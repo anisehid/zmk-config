@@ -5,121 +5,148 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anise keymaps</title>
 <meta name="description" content="Keymap browser for the Anise ZMK config — stock layouts and ready-to-flash presets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#eef0f3; --panel:#fff; --deck:#e2e6ec; --cap:#fff; --cap-edge:#c7cdd6;
-    --shadow:rgba(23,26,31,.13); --ink:#171a1f; --dim:#6a7480; --line:#d4dae1;
-    --accent:#0d6e68; --accent-soft:rgba(13,110,104,.10);
-    --ochre:#8d6519; --ochre-soft:rgba(141,101,25,.12);
-    --warn:#ab4029; --warn-soft:rgba(171,64,41,.10);
+    --bg:#e9e5dc; --bg2:#f4f1ea; --panel:#fbf9f4; --deck:#e3ded3; --ink:#1d1b18; --dim:#6d675d; --line:#d6cfc2;
+    --shadow:rgba(40,30,15,.16);
+    --case-hi:#f6f5f2; --case-lo:#c9c6bf; --case-edge:#a9a59c; --plate:#2b2c2f;
+    --cap:#f1ece1; --cap-side:#d4ccbb; --cap-ink:#2a2620;
+    --mod:#b8b1a3; --mod-side:#9a9284; --mod-ink:#24211c;
+    --layer:#1f7a72; --layer-side:#145a54; --layer-ink:#f2fbf9;
+    --sys:#d89a2b; --sys-side:#a8741b; --sys-ink:#2a1c05;
+    --accent:#1f7a72; --accent-soft:rgba(31,122,114,.12);
+    --ochre:#9a6a12; --ochre-soft:rgba(154,106,18,.12);
+    --warn:#b2452c; --warn-soft:rgba(178,69,44,.10);
   }
-  @media (prefers-color-scheme:dark){:root{
-    --bg:#101216; --panel:#191c22; --deck:#14171c; --cap:#272b32; --cap-edge:#363c45;
-    --shadow:rgba(0,0,0,.5); --ink:#e9ecf0; --dim:#8c96a3; --line:#2a3038;
-    --accent:#45b3a9; --accent-soft:rgba(69,179,169,.14);
-    --ochre:#d3a251; --ochre-soft:rgba(211,162,81,.14);
-    --warn:#e07a5f; --warn-soft:rgba(224,122,95,.14);
+  @media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+    --bg:#121316; --bg2:#1b1d21; --panel:#1a1c20; --deck:#15171a; --ink:#ece8df; --dim:#958f84; --line:#2c2f35;
+    --shadow:rgba(0,0,0,.55);
+    --case-hi:#3a3d43; --case-lo:#1e2024; --case-edge:#0f1012; --plate:#0b0c0d;
+    --cap:#34373d; --cap-side:#22252a; --cap-ink:#e8e3d8;
+    --mod:#24272c; --mod-side:#17191c; --mod-ink:#c9c3b7;
+    --layer:#2fa498; --layer-side:#1d736b; --layer-ink:#06201d;
+    --sys:#e2a640; --sys-side:#a8761f; --sys-ink:#2a1c05;
+    --accent:#4cc2b5; --accent-soft:rgba(76,194,181,.14);
+    --ochre:#e0ac55; --ochre-soft:rgba(224,172,85,.14);
+    --warn:#e58166; --warn-soft:rgba(229,129,102,.14);
   }}
   :root[data-theme=dark]{
-    --bg:#101216; --panel:#191c22; --deck:#14171c; --cap:#272b32; --cap-edge:#363c45;
-    --shadow:rgba(0,0,0,.5); --ink:#e9ecf0; --dim:#8c96a3; --line:#2a3038;
-    --accent:#45b3a9; --accent-soft:rgba(69,179,169,.14);
-    --ochre:#d3a251; --ochre-soft:rgba(211,162,81,.14);
-    --warn:#e07a5f; --warn-soft:rgba(224,122,95,.14);
-  }
-  :root[data-theme=light]{
-    --bg:#eef0f3; --panel:#fff; --deck:#e2e6ec; --cap:#fff; --cap-edge:#c7cdd6;
-    --shadow:rgba(23,26,31,.13); --ink:#171a1f; --dim:#6a7480; --line:#d4dae1;
-    --accent:#0d6e68; --accent-soft:rgba(13,110,104,.10);
-    --ochre:#8d6519; --ochre-soft:rgba(141,101,25,.12);
-    --warn:#ab4029; --warn-soft:rgba(171,64,41,.10);
+    --bg:#121316; --bg2:#1b1d21; --panel:#1a1c20; --deck:#15171a; --ink:#ece8df; --dim:#958f84; --line:#2c2f35;
+    --shadow:rgba(0,0,0,.55);
+    --case-hi:#3a3d43; --case-lo:#1e2024; --case-edge:#0f1012; --plate:#0b0c0d;
+    --cap:#34373d; --cap-side:#22252a; --cap-ink:#e8e3d8;
+    --mod:#24272c; --mod-side:#17191c; --mod-ink:#c9c3b7;
+    --layer:#2fa498; --layer-side:#1d736b; --layer-ink:#06201d;
+    --sys:#e2a640; --sys-side:#a8761f; --sys-ink:#2a1c05;
+    --accent:#4cc2b5; --accent-soft:rgba(76,194,181,.14);
+    --ochre:#e0ac55; --ochre-soft:rgba(224,172,85,.14);
+    --warn:#e58166; --warn-soft:rgba(229,129,102,.14);
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;
-    font-family:ui-sans-serif,-apple-system,"SF Pro Text","Segoe UI",Roboto,sans-serif;
-    -webkit-font-smoothing:antialiased}
-  .wrap{max-width:1200px;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:26px}
-  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  body{margin:0;color:var(--ink);font-size:15px;line-height:1.5;font-family:Archivo,ui-sans-serif,sans-serif;
+    -webkit-font-smoothing:antialiased;background-color:var(--bg);
+    background-image:radial-gradient(ellipse 90% 60% at 50% 32%,var(--bg2),transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    min-height:100vh}
+  .wrap{max-width:1240px;margin:0 auto;padding:44px 16px 72px;display:flex;flex-direction:column;gap:28px}
+  code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.92em}
+  a{color:var(--accent)}
 
-  header{display:flex;flex-direction:column;gap:9px}
+  header{display:flex;flex-direction:column;gap:10px}
   .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-  .eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
-    letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
-  h1{margin:0;font-size:clamp(28px,4.4vw,40px);letter-spacing:-.024em;font-weight:660;text-wrap:balance}
-  .sub{margin:0;color:var(--dim);max-width:64ch}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{margin:0;font-family:"Bricolage Grotesque",Archivo,sans-serif;font-weight:700;
+    font-size:clamp(34px,5.4vw,58px);letter-spacing:-.035em;line-height:1}
+  .sub{margin:0;color:var(--dim);max-width:68ch}
   #theme{font:inherit;font-size:13px;color:var(--dim);background:var(--panel);
-    border:1px solid var(--line);border-radius:8px;padding:7px 13px;cursor:pointer}
+    border:1px solid var(--line);border-radius:999px;padding:7px 15px;cursor:pointer}
   #theme:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  .controls{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;
-    padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .controls{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:flex-end}
   .ctl{display:flex;flex-direction:column;gap:7px}
-  .ctl-label{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-  .seg{display:flex;gap:4px;background:var(--deck);padding:4px;border-radius:9px;flex-wrap:wrap}
-  .seg button{font:inherit;font-size:13px;font-weight:550;color:var(--dim);background:none;
-    border:0;padding:7px 13px;border-radius:6px;cursor:pointer}
-  .seg button[aria-pressed=true]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px var(--shadow)}
+  .ctl-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .seg{display:flex;gap:3px;background:var(--deck);padding:4px;border-radius:11px;flex-wrap:wrap;
+    box-shadow:inset 0 1px 2px var(--shadow)}
+  .seg button{font:inherit;font-size:13px;font-weight:600;color:var(--dim);background:none;
+    border:0;padding:7px 13px;border-radius:8px;cursor:pointer}
+  .seg button[aria-pressed=true]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px var(--shadow),0 0 0 1px var(--line)}
   .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .seg.preset button[aria-pressed=true]{color:var(--ochre)}
   .checks{display:flex;flex-direction:column;gap:6px}
   .checks label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);cursor:pointer}
   .checks input{accent-color:var(--accent);width:15px;height:15px}
 
-  .board-scroll{overflow-x:auto;padding:4px}
-  .halves,.board{min-width:980px}
-  .halves{display:grid;gap:7px;margin-bottom:9px}
-  .half-tag{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
-    padding-bottom:4px;border-bottom:1px solid var(--line)}
-  .board{background:var(--deck);border:1px solid var(--line);border-radius:14px;
-    padding:16px;display:grid;gap:7px}
-  .key{grid-row:var(--r);grid-column:var(--c);background:var(--cap);border:1px solid var(--cap-edge);
-    border-bottom-width:2px;border-radius:7px;min-height:56px;padding:5px 4px;display:flex;
-    flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;
-    box-shadow:0 1px 2px var(--shadow)}
-  .legend{font-size:12px;font-weight:570;letter-spacing:-.01em;line-height:1.12;word-break:break-word}
-  .rc,.raw{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;color:var(--dim)}
-  .rc{font-variant-numeric:tabular-nums}
-  .raw{word-break:break-all}
-  .key.mod{background:color-mix(in srgb,var(--cap) 88%,var(--ink) 12%)}
-  .key.layer{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 45%,var(--cap-edge))}
-  .key.layer .legend{color:var(--accent)}
-  .key.sys{background:var(--ochre-soft);border-color:color-mix(in srgb,var(--ochre) 40%,var(--cap-edge))}
-  .key.sys .legend{color:var(--ochre)}
-  .key.trans{background:none;border-style:dashed;border-bottom-width:1px;box-shadow:none}
-  .key.trans .legend{color:var(--dim);font-weight:400}
-  .board.diffs .key.changed{border-color:var(--accent);border-width:2px;
-    box-shadow:0 0 0 3px var(--accent-soft),0 1px 2px var(--shadow)}
+  /* ---- the keyboard ---- */
+  .stage{overflow-x:auto;padding:18px 16px 56px;margin:0 -16px}
+  .kb{position:relative;margin:0 auto}
+  .cases{position:absolute;inset:0;overflow:visible}
+  .cases g{filter:drop-shadow(0 calc(var(--u)*.06) calc(var(--u)*.06) var(--shadow)) drop-shadow(0 calc(var(--u)*.2) calc(var(--u)*.25) var(--shadow))}
+  .stop-hi{stop-color:var(--case-hi)} .stop-lo{stop-color:var(--case-lo)}
+  .case-rim{fill:url(#caseGrad);stroke:url(#caseGrad);stroke-linejoin:round}
+  .case-edge{fill:none;stroke:var(--case-edge);stroke-linejoin:round}
+  .case-plate{fill:var(--plate);stroke:var(--plate);stroke-linejoin:round}
+  .case-tag{position:absolute;text-align:center;
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .key{position:absolute;padding:calc(var(--u)*.035);--k-cap:var(--cap);--k-side:var(--cap-side);--k-ink:var(--cap-ink)}
+  .key.mod{--k-cap:var(--mod);--k-side:var(--mod-side);--k-ink:var(--mod-ink)}
+  .key.layer{--k-cap:var(--layer);--k-side:var(--layer-side);--k-ink:var(--layer-ink)}
+  .key.sys{--k-cap:var(--sys);--k-side:var(--sys-side);--k-ink:var(--sys-ink)}
+  .cap{position:relative;width:100%;height:100%;border-radius:calc(var(--u)*.11);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--k-side) 70%,#fff 30%),var(--k-side) 55%,color-mix(in srgb,var(--k-side) 80%,#000 20%));
+    box-shadow:0 calc(var(--u)*.05) calc(var(--u)*.06) rgba(0,0,0,.45);transition:transform .12s,box-shadow .12s}
+  .top-face{position:absolute;left:12%;right:12%;top:6%;bottom:19%;
+    left:calc(var(--u)*.09);right:calc(var(--u)*.09);top:calc(var(--u)*.05);bottom:calc(var(--u)*.16);
+    border-radius:calc(var(--u)*.08);
+    background:radial-gradient(ellipse 120% 90% at 50% 30%,color-mix(in srgb,var(--k-cap) 92%,#fff 8%),var(--k-cap) 60%,color-mix(in srgb,var(--k-cap) 90%,#000 10%));
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--k-cap) 80%,#000 20%) inset,0 1px 0 rgba(255,255,255,.25) inset;
+    color:var(--k-ink);padding:calc(var(--u)*.07) calc(var(--u)*.09);display:flex;flex-direction:column;
+    justify-content:space-between;overflow:hidden}
+  .legend{font-weight:600;font-size:calc(var(--u)*.21);line-height:1.1;letter-spacing:-.01em;overflow-wrap:normal;word-break:normal}
+  .legend.small{font-size:calc(var(--u)*.17)}
+  .legend.big{font-size:calc(var(--u)*.3);font-weight:500}
+  .meta-row{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+  .rc,.raw{font-family:"JetBrains Mono",monospace;font-size:max(8px,calc(var(--u)*.12));opacity:.55;line-height:1.1}
+  .raw{word-break:break-all;text-align:right}
+  .key.trans .cap{background:none;box-shadow:none;border:1px dashed color-mix(in srgb,var(--dim) 60%,transparent)}
+  .key.trans .top-face{background:none;box-shadow:none;color:var(--dim)}
+  .key.trans .legend{font-weight:400;opacity:.6}
+  .key.held .cap{transform:translateY(calc(var(--u)*.05));box-shadow:0 0 0 2px var(--accent),0 0 calc(var(--u)*.3) var(--accent)}
+  .kb.diffs .key.changed .cap{box-shadow:0 0 0 2px var(--ochre),0 0 calc(var(--u)*.22) var(--ochre)}
+  .key:not(.trans):hover .cap{transform:translateY(calc(var(--u)*.035))}
+  @media (prefers-reduced-motion:no-preference){
+    .kb.fresh .key{animation:drop .42s cubic-bezier(.2,.8,.2,1.2) both;animation-delay:calc(var(--i)*6ms)}
+    @keyframes drop{from{opacity:0;transform:translateY(-10px)}}
+    .seg button{transition:background .14s,color .14s}
+  }
 
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(276px,1fr));gap:18px}
-  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:18px 20px;display:flex;flex-direction:column;gap:11px}
-  .panel h2{margin:0;font-size:11px;letter-spacing:.11em;text-transform:uppercase;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);font-weight:500}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;display:flex;flex-direction:column;gap:11px;box-shadow:0 1px 2px var(--shadow)}
+  .panel h2{margin:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    font-family:"JetBrains Mono",monospace;color:var(--dim);font-weight:500}
   .panel p{margin:0;font-size:13.5px;color:var(--dim)}
   .panel.flag{border-left:3px solid var(--warn)}
   .panel.flag h2{color:var(--warn)}
   .panel.use{border-left:3px solid var(--ochre)}
   .panel.use h2{color:var(--ochre)}
   pre{margin:0;background:var(--deck);border:1px solid var(--line);border-radius:8px;
-    padding:11px 13px;overflow-x:auto;font-size:12px;line-height:1.55}
+    padding:11px 13px;overflow-x:auto;font-size:12px;line-height:1.55;font-family:"JetBrains Mono",monospace}
   dl.meta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}
   dl.meta dt{color:var(--dim)}
-  dl.meta dd{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+  dl.meta dd{margin:0;font-family:"JetBrains Mono",monospace;font-size:12px;overflow-wrap:anywhere}
   .swatches{display:flex;flex-direction:column;gap:8px}
   .sw{display:flex;align-items:center;gap:10px;font-size:13px}
-  .chip{width:26px;height:20px;border-radius:5px;border:1px solid var(--cap-edge);
-    border-bottom-width:2px;flex:none}
-  .chip.n{background:var(--cap)} .chip.m{background:color-mix(in srgb,var(--cap) 88%,var(--ink) 12%)}
-  .chip.l{background:var(--accent-soft);border-color:var(--accent)}
-  .chip.s{background:var(--ochre-soft);border-color:var(--ochre)}
-  .chip.t{background:none;border-style:dashed}
-  .chip.c{border-color:var(--accent);border-width:2px;box-shadow:0 0 0 3px var(--accent-soft)}
+  .chip{width:26px;height:20px;border-radius:5px;flex:none;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+  .chip.n{background:var(--cap)} .chip.m{background:var(--mod)}
+  .chip.l{background:var(--layer)} .chip.s{background:var(--sys)}
+  .chip.t{background:none;border:1px dashed var(--dim);box-shadow:none}
+  .chip.c{background:var(--cap);box-shadow:0 0 0 2px var(--ochre),0 0 8px var(--ochre)}
+  .chip.h{background:var(--layer);box-shadow:0 0 0 2px var(--accent),0 0 8px var(--accent)}
   footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px;
     display:flex;flex-wrap:wrap;gap:6px 18px}
-  footer a{color:var(--accent)}
-  @media (prefers-reduced-motion:no-preference){.seg button{transition:background .14s,color .14s}}
 </style>
 </head>
 <body>
@@ -141,7 +168,7 @@
     <p class="sub">
       Every layout except <code>anise85n</code> can also be edited live, without flashing, in
       <a href="https://zmk.studio">ZMK Studio</a> — connect the left half over USB and press the
-      <em>Studio unlock</em> key shown on the Keyboard layer.
+      <em>Studio unlock</em> key on the Fn3 layer.
     </p>
   </header>
 
@@ -159,18 +186,13 @@
       <div class="seg" id="layers"></div>
     </div>
     <div class="ctl checks">
-      <label><input type="checkbox" id="showRC" checked> Matrix coordinates</label>
+      <label><input type="checkbox" id="showRC"> Matrix coordinates</label>
       <label><input type="checkbox" id="showRaw"> Raw ZMK binding</label>
       <label><input type="checkbox" id="showDiff" checked> Highlight preset changes</label>
     </div>
   </div>
 
-  <div>
-    <div class="board-scroll">
-      <div class="halves" id="halves"></div>
-      <div class="board" id="board"></div>
-    </div>
-  </div>
+  <div class="stage" id="stage"><div class="kb" id="board"></div></div>
 
   <div class="grid2" id="panels"></div>
 
@@ -198,12 +220,12 @@ const KC = {
   C_VOL_DN:"Vol −",C_VOL_UP:"Vol +",C_BRI_DN:"Bright −",C_BRI_UP:"Bright +",C_PP:"⏯ Play"
 };
 
-function describe(b){
+function describe(b,d){
   const p=b.replace(/^&\s*/,"").split(/\s+/), beh=p[0], arg=p[1]||"";
   if(beh==="trans")return{legend:"▽",cls:"trans"};
   if(beh==="none")return{legend:"·",cls:"trans"};
   if(beh==="gresc")return{legend:"Esc / ~",cls:""};
-  if(beh==="mo")return{legend:"Layer "+arg,cls:"layer"};
+  if(beh==="mo"){const t=d&&d.layers[+arg];return{legend:t?label(t):"Layer "+arg,cls:"layer"};}
   if(beh==="kp"){
     if(/^F\d+$/.test(arg))return{legend:arg,cls:""};
     if(/^KP_N\d$/.test(arg))return{legend:"Num "+arg.slice(4),cls:""};
@@ -217,7 +239,7 @@ function describe(b){
   return{legend:b.replace(/^&/,""),cls:""};
 }
 
-const LAYER_LABEL={default_layer:"Base",fn_layer:"Fn · L1",fn2_layer:"Fn2 · L2",kbd_func_layer:"Keyboard · L3"};
+const LAYER_LABEL={default_layer:"Base",fn_layer:"Fn1",fn2_layer:"Fn2",kbd_func_layer:"Fn3"};
 const names=Object.keys(DATA);
 const stockNames=names.filter(n=>!DATA[n].preset);
 const presetNames=names.filter(n=>DATA[n].preset);
@@ -237,50 +259,100 @@ function seg(el,items,active,onPick){
   });
 }
 
+const label=l=>l.label||LAYER_LABEL[l.name]||l.name;
+let lastShield=null;
+
+function geometry(d){
+  if(d.geom)return d.geom;
+  // no physical layout: fall back to the matrix grid with a half-unit split gap
+  const cols=Math.max(...d.positions.map(p=>p[1]))+1, split=cols>=15?7:Math.ceil(cols/2);
+  return d.positions.map(([r,c])=>[100,100,(c<split?c:c+.5)*100,r*100]);
+}
+
 function render(){
   const d=DATA[shield];
-  const layer=d.layers[Math.min(layerIdx,d.layers.length-1)];
-  const cols=Math.max(...d.positions.map(p=>p[1]))+1;
-  const split=cols>=15?7:Math.ceil(cols/2);
-  const tracks=`repeat(${split},1fr) 26px repeat(${cols-split},1fr)`;
+  layerIdx=Math.min(layerIdx,d.layers.length-1);
+  const layer=d.layers[layerIdx];
 
   seg($("stock"),stockNames,shield,n=>{shield=n;render();});
   seg($("presets"),presetNames,shield,n=>{shield=n;render();});
-  seg($("layers"),d.layers.map(l=>LAYER_LABEL[l.name]||l.name),
-      LAYER_LABEL[layer.name]||layer.name,
-      lbl=>{layerIdx=d.layers.findIndex(l=>(LAYER_LABEL[l.name]||l.name)===lbl);render();});
+  seg($("layers"),d.layers.map(label),label(layer),
+      lbl=>{layerIdx=d.layers.findIndex(l=>label(l)===lbl);render();});
 
-  $("halves").style.gridTemplateColumns=tracks;
-  $("halves").replaceChildren();
-  const l=document.createElement("div"); l.className="half-tag";
-  l.style.gridColumn=`1 / ${split+1}`; l.textContent=`Left — central · cols 0–${split-1}`;
-  const r=document.createElement("div"); r.className="half-tag";
-  r.style.gridColumn=`${split+2} / ${cols+2}`; r.textContent=`Right — peripheral · cols ${split}–${cols-1}`;
-  $("halves").append(l,r);
+  const cols=Math.max(...d.positions.map(p=>p[1]))+1, split=cols>=15?7:Math.ceil(cols/2);
+  const GAP=100;  // pull the halves apart so both cases fit
+  const geom=geometry(d).map(([w,h,x,y],i)=>[w,h,d.positions[i][1]>=split?x+GAP:x,y]);
+  const W=Math.max(...geom.map(g=>g[2]+g[0])), H=Math.max(...geom.map(g=>g[3]+g[1]));
+  const pad=45;  // case border around the keys, in 1/100 u
+  const units=(W+2*pad)/100;
+  const avail=$("stage").clientWidth-40;
+  const u=Math.max(34,Math.min(68,avail/units));
+  const px=v=>(v*u/100)+"px";
 
   const board=$("board");
-  board.style.gridTemplateColumns=tracks;
+  board.style.setProperty("--u",u+"px");
+  board.style.width=px(W+2*pad); board.style.height=px(H+3*pad+40);
   board.replaceChildren();
+  board.classList.toggle("fresh",shield!==lastShield); lastShield=shield;
+
+  // one case per half, stepping around that half's rows like the real PCB
+  const NS="http://www.w3.org/2000/svg";
+  const svg=document.createElementNS(NS,"svg"); svg.setAttribute("class","cases");
+  svg.setAttribute("viewBox",`0 0 ${W+2*pad} ${H+2*pad+40}`);
+  svg.innerHTML='<defs><linearGradient id="caseGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="'+(H+2*pad)+
+    '"><stop offset="0" class="stop-hi"/><stop offset="1" class="stop-lo"/></linearGradient></defs>';
+  board.appendChild(svg);
+  const g=document.createElementNS(NS,"g"); svg.appendChild(g);
+  [["Left · central",false],["Right · peripheral",true]].forEach(([tag,right])=>{
+    const rows=new Map();
+    geom.forEach(([w,h,x,y],i)=>{
+      if((d.positions[i][1]>=split)!==right)return;
+      const r=rows.get(y)||[1e9,-1e9,y+h];
+      rows.set(y,[Math.min(r[0],x),Math.max(r[1],x+w),Math.max(r[2],y+h)]);
+    });
+    if(!rows.size)return;
+    const ys=[...rows.keys()].sort((a,b)=>a-b), o=pad;
+    const pts=[];
+    ys.forEach(y=>{const[,x1,y1]=rows.get(y);pts.push([x1+o,y+o],[x1+o,y1+o]);});
+    [...ys].reverse().forEach(y=>{const[x0,,y1]=rows.get(y);pts.push([x0+o,y1+o],[x0+o,y+o]);});
+    const pstr=pts.map(p=>p.join(",")).join(" ");
+    [["case-edge",2*pad+3],["case-rim",2*pad],["case-plate",2*pad-28]].forEach(([cls,sw])=>{
+      const pg=document.createElementNS(NS,"polygon");
+      pg.setAttribute("class",cls); pg.setAttribute("points",pstr); pg.setAttribute("stroke-width",sw);
+      g.appendChild(pg);
+    });
+    const xs=pts.map(p=>p[0]);
+    const t=document.createElement("div"); t.className="case-tag"; t.textContent=tag;
+    t.style.left=px(Math.min(...xs)-pad); t.style.width=px(Math.max(...xs)-Math.min(...xs)+2*pad);
+    t.style.top=px(H+3*pad+8);
+    board.appendChild(t);
+  });
 
   const base=d.base?DATA[d.base]:null;
   const baseMap=base?new Map(base.positions.map((p,i)=>[p.join(),base.layers.find(x=>x.name===layer.name)?.bindings[i]])):null;
+  const holds=new Set(d.layers[0].bindings.map((b,i)=>b==="&mo "+layerIdx?i:-1));
   let changed=0;
   const counts={trans:0,layer:0,sys:0,mod:0};
 
   d.positions.forEach(([rr,cc],i)=>{
-    const bind=layer.bindings[i], info=describe(bind);
+    const bind=layer.bindings[i], info=describe(bind,d);
+    const [w,h,x,y]=geom[i];
     const el=document.createElement("div");
-    el.className="key"+(info.cls?" "+info.cls:"");
-    el.style.setProperty("--r",rr+1);
-    el.style.setProperty("--c",cc<split?cc+1:cc+2);
+    el.className="key"+(info.cls?" "+info.cls:"")+(layerIdx&&holds.has(i)?" held":"");
+    el.style.cssText=`left:${px(x+pad)};top:${px(y+pad)};width:${px(w)};height:${px(h)};--i:${i}`;
     if(baseMap&&baseMap.get([rr,cc].join())!==undefined&&baseMap.get([rr,cc].join())!==bind){
       el.classList.add("changed"); changed++;
     }
     if(counts[info.cls]!==undefined)counts[info.cls]++;
-    const lg=document.createElement("div"); lg.className="legend"; lg.textContent=info.legend;
+    const cap=document.createElement("div"); cap.className="cap";
+    const face=document.createElement("div"); face.className="top-face";
+    const lg=document.createElement("div");
+    const n=[...info.legend].length;
+    lg.className="legend"+(n===1?" big":(n>=4&&w<=100)||(n>=6&&w<150)?" small":""); lg.textContent=info.legend;
+    const meta=document.createElement("div"); meta.className="meta-row";
     const rc=document.createElement("div"); rc.className="rc"; rc.textContent=rr+","+cc;
     const raw=document.createElement("div"); raw.className="raw"; raw.textContent=bind;
-    el.append(lg,rc,raw);
+    meta.append(rc,raw); face.append(lg,meta); cap.appendChild(face); el.appendChild(cap);
     el.title=bind+"  ·  row "+rr+", col "+cc;
     board.appendChild(el);
   });
@@ -288,6 +360,7 @@ function render(){
   renderPanels(d,layer,changed,counts);
   applyToggles();
 }
+addEventListener("resize",()=>{clearTimeout(render.t);render.t=setTimeout(()=>{lastShield=shield;render();},120);});
 
 function panel(cls,title,nodes){
   const p=document.createElement("div"); p.className="panel"+(cls?" "+cls:"");
@@ -331,7 +404,7 @@ function renderPanels(d,layer,changed,counts){
   host.appendChild(panel("","Key types",[(()=>{
     const w=document.createElement("div"); w.className="swatches";
     [["n","Normal keycode"],["m","Modifier"],["l","Layer switch &mo"],
-     ["s","Bluetooth / RGB / output"],["t","Transparent"],["c","Changed vs base"]]
+     ["s","Bluetooth / RGB / output"],["t","Transparent"],["h","Held to reach this layer"],["c","Changed vs base"]]
       .forEach(([c,t])=>{const row=document.createElement("div");row.className="sw";
         const ch=document.createElement("span");ch.className="chip "+c;
         row.append(ch,document.createTextNode(t));w.appendChild(row);});
