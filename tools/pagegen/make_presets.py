@@ -1,4 +1,4 @@
-"""Generate the preset keymap shields from anise60b.
+"""Generate the preset keymap shields from a stock shield (anise60b by default).
 
 Each preset is a real ZMK shield: it reuses anise60b's matrix transform and
 kscan via #include, and only replaces the keymap. That keeps them buildable
@@ -15,6 +15,8 @@ SHIELDS = ROOT / 'config' / 'boards' / 'shields'
 BASE = 'anise60b'
 
 # Each preset overrides bindings at specific (row, col) positions of a layer.
+# 'base' picks another stock shield; 'extra_layers' appends layers
+# (node name, display name, overrides) that are &trans everywhere else.
 PRESETS = {
     'anise60b_win': {
         'title': 'Windows standard',
@@ -74,6 +76,43 @@ PRESETS = {
             (4, 0): '&kp LCTRL', (4, 1): '&kp LALT', (4, 2): '&kp LGUI',
         },
     },
+    'anise85a_keyd': {
+        'base': 'anise85a',
+        'title': 'keyd',
+        'name': 'ANISE85A-KEYD',
+        'blurb': 'The Linux keyd remap in firmware: Ctrl and Alt swapped, '
+                 'Backspace on backslash, right Alt holds symbols and right '
+                 'Ctrl holds F-keys.',
+        'default_layer': {
+            (2, 14): '&kp BSPC',
+            (5, 0): '&kp LCTRL', (5, 3): '&kp LALT',
+            (5, 11): '&mo 4', (5, 12): '&mo 5',
+        },
+        'extra_layers': [
+            ('sym_layer', 'Sym', {
+                (2, 0): '&kp EQUAL', (2, 1): '&kp EXCL', (2, 2): '&kp N1',
+                (2, 3): '&kp N2', (2, 4): '&kp N3', (2, 5): '&kp PRCNT',
+                (2, 7): '&kp AMPS', (2, 8): '&kp STAR', (2, 9): '&kp LPAR',
+                (2, 10): '&kp RPAR', (2, 11): '&kp PLUS', (2, 12): '&kp BSLH',
+                (2, 13): '&kp PIPE', (2, 14): '&kp DEL',
+                (3, 0): '&kp CAPS', (3, 1): '&kp N0', (3, 2): '&kp N4',
+                (3, 3): '&kp N5', (3, 4): '&kp N6', (3, 5): '&kp DLLR',
+                (3, 7): '&kp LEFT', (3, 8): '&kp DOWN', (3, 9): '&kp UP',
+                (3, 10): '&kp RIGHT', (3, 11): '&kp CARET', (3, 12): '&kp GRAVE',
+                (4, 2): '&kp AT', (4, 3): '&kp N7', (4, 4): '&kp N8',
+                (4, 5): '&kp N9', (4, 6): '&kp HASH',
+                (4, 8): '&kp MINUS', (4, 9): '&kp HOME', (4, 10): '&kp PG_UP',
+                (4, 11): '&kp PG_DN', (4, 12): '&kp END',
+            }),
+            ('fkey_layer', 'FKeys', {
+                (2, 2): '&kp F1', (2, 3): '&kp F2', (2, 4): '&kp F3',
+                (3, 1): '&kp F10', (3, 2): '&kp F4', (3, 3): '&kp F5',
+                (3, 4): '&kp F6',
+                (4, 3): '&kp F7', (4, 4): '&kp F8', (4, 5): '&kp F9',
+                (2, 12): '&kp F11', (2, 13): '&kp F12',
+            }),
+        ],
+    },
 }
 
 
@@ -85,13 +124,13 @@ def strip_comments(s):
 DISPLAY_NAMES = {}  # layer node -> display-name, filled by load_base()
 
 
-def load_base():
-    dtsi = (SHIELDS / BASE / f'{BASE}.dtsi').read_text()
+def load_base(base):
+    dtsi = (SHIELDS / base / f'{base}.dtsi').read_text()
     raw = dtsi.split('map = <')[1].split('>;')[0]
     positions = [(int(r), int(c))
                  for r, c in re.findall(r'RC\((\d+),\s*(\d+)\)', strip_comments(raw))]
 
-    km = strip_comments((SHIELDS / BASE / f'{BASE}.keymap').read_text())
+    km = strip_comments((SHIELDS / base / f'{base}.keymap').read_text())
     body = km.split('compatible = "zmk,keymap"')[1]
     layers = {}
     order = []
@@ -108,6 +147,13 @@ def load_base():
 
 
 def emit(shield, spec, positions, base_layers, order):
+    BASE = spec.get('base', 'anise60b')
+    base_layers, order, spec = dict(base_layers), list(order), dict(spec)
+    for lname, display, overrides in spec.get('extra_layers', []):
+        base_layers[lname] = ['&trans'] * len(positions)
+        DISPLAY_NAMES[lname] = display
+        order.append(lname)
+        spec[lname] = overrides
     d = SHIELDS / shield
     d.mkdir(exist_ok=True)
     upper = shield.upper()
@@ -212,9 +258,8 @@ def emit(shield, spec, positions, base_layers, order):
 
 
 if __name__ == '__main__':
-    positions, base_layers, order = load_base()
-    print(f'base {BASE}: {len(positions)} positions, layers {order}')
     for shield, spec in PRESETS.items():
-        emit(shield, spec, positions, base_layers, order)
-        touched = sum(len(v) for k, v in spec.items() if isinstance(v, dict))
+        emit(shield, spec, *load_base(spec.get('base', BASE)))
+        touched = sum(len(v) for k, v in spec.items() if isinstance(v, dict)) + \
+            sum(len(l[2]) for l in spec.get('extra_layers', []))
         print(f'  {shield:<18} {spec["title"]:<20} {touched} keys overridden')

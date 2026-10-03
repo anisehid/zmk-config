@@ -132,9 +132,9 @@ GitHub Actions**, then push once. It publishes to
 
 ## Preset layouts
 
-Four ready-to-flash variants of `anise60b`. Same hardware, different keymap — each
-is a real shield that reuses `anise60b`'s matrix and kscan and only replaces the
-keymap.
+Ready-to-flash variants of `anise60b` and `anise85a`. Same hardware, different
+keymap — each is a real shield that reuses its base's matrix and kscan and only
+replaces the keymap.
 
 | Preset | What changes |
 |---|---|
@@ -142,6 +142,7 @@ keymap.
 | `anise60b_mac` | Ctrl / Option / Command, Command mirrored on the right |
 | `anise60b_vim` | Caps → Esc, Fn layer keeps HJKL as arrows |
 | `anise60b_hhkb` | Ctrl on Caps, Backspace on the backslash key |
+| `anise85a_keyd` | The Linux keyd remap in firmware: LCtrl ↔ LAlt, Backspace on backslash, right Alt holds a symbol/arrow layer, right Ctrl holds F-keys |
 
 ```bash
 cp -X zmk/anise60b_mac_left-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/
@@ -168,7 +169,7 @@ no flash. It's ZMK's answer to VIA.
 
    | Keyboard | Unlock |
    |---|---|
-   | `anise85a` | hold `Fn3` (bottom row, 2nd from left), press `Esc` |
+   | `anise85a`, `anise85a_keyd` | hold `Fn3` (bottom row, 2nd from left), press `Esc` |
    | `anise60b`, presets, `anise60bn` | hold `Fn2` + bottom-left key (layer 3), press `Backspace` |
 
 4. Pick a layer, click a key, choose its new function. Changes apply at once but
@@ -245,8 +246,8 @@ Preset keymaps are produced by a script — don't hand-edit them:
 python3 tools/pagegen/make_presets.py
 ```
 
-Each preset declares only its differences from `anise60b` in `PRESETS` at the top
-of that file. A change to the base layout flows into every preset unless the
+Each preset declares only its differences from its base (`anise60b` unless it
+sets `base`) in `PRESETS` at the top of that file; `extra_layers` adds layers. A change to the base layout flows into every preset unless the
 preset pins that position explicitly.
 
 ---
