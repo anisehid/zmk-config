@@ -2,6 +2,6 @@
   "base": "anise60b",
   "preset": true,
   "title": "keyd",
-  "blurb": "The Linux keyd remap in firmware: Caps is Escape, Fn1 holds symbols and arrows, Fn2 holds F-keys (plus Ctrl for Fn3).",
+  "blurb": "The Linux keyd remap in firmware: Caps is Escape, Ctrl and Alt swapped, Fn1 holds symbols and arrows, Fn2 holds F-keys (plus Ctrl for Fn3).",
   "artifact": "anise60b_keyd_left / anise60b_keyd_right"
 }

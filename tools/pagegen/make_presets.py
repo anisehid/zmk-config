@@ -80,11 +80,12 @@ PRESETS = {
     'anise60b_keyd': {
         'title': 'keyd',
         'name': 'ANISE60B-KEYD',
-        'blurb': 'The Linux keyd remap in firmware: Caps is Escape, Fn1 holds '
+        'blurb': 'The Linux keyd remap in firmware: Caps is Escape, Ctrl and '
+                 'Alt swapped, Fn1 holds '
                  'symbols and arrows, Fn2 holds F-keys (plus Ctrl for Fn3).',
         'default_layer': {
             (0, 0): '&kp ESC',
-            (4, 0): '&kp LCTRL', (4, 2): '&kp LALT',
+            (4, 0): '&kp LALT', (4, 2): '&kp LCTRL',
             (4, 11): '&kp RALT', (4, 13): '&kp RCTRL',
         },
         'extra_layers': [

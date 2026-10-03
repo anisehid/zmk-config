@@ -142,7 +142,7 @@ replaces the keymap.
 | `anise60b_mac` | Ctrl / Option / Command, Command mirrored on the right |
 | `anise60b_vim` | Caps → Esc, Fn layer keeps HJKL as arrows |
 | `anise60b_hhkb` | Ctrl on Caps, Backspace on the backslash key |
-| `anise60b_keyd` | The Linux keyd remap in firmware: Caps → Esc, Fn1 holds a symbol/arrow layer, Fn2 holds F-keys (Fn2 + Ctrl → Fn3) |
+| `anise60b_keyd` | The Linux keyd remap in firmware: Caps → Esc, LCtrl ↔ LAlt, Fn1 holds a symbol/arrow layer, Fn2 holds F-keys (Fn2 + Ctrl → Fn3) |
 
 ```bash
 cp -X zmk/anise60b_mac_left-anisectlc_nrf52840_zmk-zmk.uf2 /Volumes/NRF52BOOT/
