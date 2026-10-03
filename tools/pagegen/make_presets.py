@@ -17,6 +17,7 @@ BASE = 'anise60b'
 # Each preset overrides bindings at specific (row, col) positions of a layer.
 # 'base' picks another stock shield; 'extra_layers' appends layers
 # (node name, display name, overrides) that are &trans everywhere else.
+# An extra layer named like a base layer replaces it in place instead.
 PRESETS = {
     'anise60b_win': {
         'title': 'Windows standard',
@@ -79,16 +80,15 @@ PRESETS = {
     'anise60b_keyd': {
         'title': 'keyd',
         'name': 'ANISE60B-KEYD',
-        'blurb': 'The Linux keyd remap in firmware: Caps is Escape, Ctrl and '
-                 'Alt swapped, right Alt holds symbols and arrows, right Ctrl '
-                 'holds F-keys.',
+        'blurb': 'The Linux keyd remap in firmware: Caps is Escape, Fn1 holds '
+                 'symbols and arrows, Fn2 holds F-keys (plus Ctrl for Fn3).',
         'default_layer': {
             (0, 0): '&kp ESC',
             (4, 0): '&kp LCTRL', (4, 2): '&kp LALT',
-            (4, 11): '&mo 4', (4, 13): '&mo 5',
+            (4, 11): '&kp RALT', (4, 13): '&kp RCTRL',
         },
         'extra_layers': [
-            ('sym_layer', 'Sym', {
+            ('fn_layer', 'Sym', {
                 (0, 0): '&kp CAPS',
                 (1, 0): '&kp EQUAL', (1, 1): '&kp EXCL', (1, 2): '&kp N1',
                 (1, 3): '&kp N2', (1, 4): '&kp N3', (1, 5): '&kp PRCNT',
@@ -104,7 +104,8 @@ PRESETS = {
                 (3, 8): '&kp MINUS', (3, 9): '&kp HOME', (3, 10): '&kp PG_UP',
                 (3, 11): '&kp PG_DN', (3, 12): '&kp END',
             }),
-            ('fkey_layer', 'FKeys', {
+            ('fn2_layer', 'FKeys', {
+                (4, 0): '&mo 3',
                 (1, 2): '&kp F1', (1, 3): '&kp F2', (1, 4): '&kp F3',
                 (2, 1): '&kp F10', (2, 2): '&kp F4', (2, 3): '&kp F5',
                 (2, 4): '&kp F6',
@@ -152,7 +153,8 @@ def emit(shield, spec, positions, base_layers, order):
     for lname, display, overrides in spec.get('extra_layers', []):
         base_layers[lname] = ['&trans'] * len(positions)
         DISPLAY_NAMES[lname] = display
-        order.append(lname)
+        if lname not in order:
+            order.append(lname)
         spec[lname] = overrides
     d = SHIELDS / shield
     d.mkdir(exist_ok=True)
