@@ -88,9 +88,23 @@ PRESETS = {
             (4, 0): '&kp LALT', (4, 2): '&kp LCTRL',
             (4, 11): '&kp RALT', (4, 13): '&kp RCTRL',
         },
+        # Fn1 + Fn2 together -> Fn3, as well as Fn2 + far-left key.
+        'conditional_layers': [(1, 2, 3)],
         'extra_layers': [
             ('fn_layer', 'Sym', {
                 (0, 0): '&kp CAPS',
+                (0, 1): '&kp F1',
+                (0, 2): '&kp F2',
+                (0, 3): '&kp F3',
+                (0, 4): '&kp F4',
+                (0, 5): '&kp F5',
+                (0, 6): '&kp F6',
+                (0, 8): '&kp F7',
+                (0, 9): '&kp F8',
+                (0, 10): '&kp F9',
+                (0, 11): '&kp F10',
+                (0, 12): '&kp F11',
+                (0, 13): '&kp F12',
                 (1, 0): '&kp EQUAL', (1, 1): '&kp EXCL', (1, 2): '&kp N1',
                 (1, 3): '&kp N2', (1, 4): '&kp N3', (1, 5): '&kp PRCNT',
                 (1, 7): '&kp AMPS', (1, 8): '&kp STAR', (1, 9): '&kp LPAR',
@@ -245,7 +259,15 @@ def emit(shield, spec, positions, base_layers, order):
             f'            bindings = <&macro_tap &out OUT_BLE &bt BT_SEL {i}>;\n'
             f'        }};\n' for i in range(5))
         + '    };\n'
-        '    keymap {\n'
+        + (''.join(
+            f'    conditional_layers {{\n'
+            f'        compatible = "zmk,conditional-layers";\n'
+            + ''.join(f'        cond_{a}_{b} {{\n'
+                      f'            if-layers = <{a} {b}>;\n'
+                      f'            then-layer = <{t}>;\n'
+                      f'        }};\n' for a, b, t in spec['conditional_layers'])
+            + '    };\n') if spec.get('conditional_layers') else '')
+        + '    keymap {\n'
         '        compatible = "zmk,keymap";\n\n'
         + '\n\n'.join(out)
         + '\n    };\n};\n')
