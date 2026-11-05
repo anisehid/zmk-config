@@ -223,6 +223,13 @@ Layer 3 holds the Bluetooth, RGB and output controls:
 | number row | RGB toggle, hue, saturation, brightness |
 | `Tab` | cycle RGB effect |
 
+Pairing a new Bluetooth host needs a code: when the host shows a 6-digit number,
+type it on the number row and press `Enter` (`Esc`, where the base layer has it,
+cancels). There is no backspace: after a typo, retype all six digits, since only
+the last six count. Keys don't reach any host until pairing ends. Hosts paired
+before this was enabled need pairing again: clear the profile with `D`, remove the
+keyboard on the host, then pair.
+
 The layer nodes carry a `display-name`, which is what Studio shows.
 
 ### Physical layouts are generated

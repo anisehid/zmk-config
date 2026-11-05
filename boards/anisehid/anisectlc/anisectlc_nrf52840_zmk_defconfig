@@ -25,3 +25,6 @@ CONFIG_NFCT_PINS_AS_GPIOS=y
 
 CONFIG_ZMK_USB=y
 CONFIG_ZMK_BLE=y
+# Type the code the host shows when pairing a new device. The split link is
+# unaffected: the right half has no auth callbacks, so it stays Just Works.
+CONFIG_ZMK_BLE_PASSKEY_ENTRY=y
