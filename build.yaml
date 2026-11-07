@@ -57,6 +57,12 @@ include:
   - board: anisectlc/nrf52840/zmk
     shield: anise60b_keyd_right
   - board: anisectlc/nrf52840/zmk
+    shield: anise85a_keyd_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlc/nrf52840/zmk
+    shield: anise85a_keyd_right
+  - board: anisectlc/nrf52840/zmk
     shield: anise85n_left
   - board: anisectlc/nrf52840/zmk
     shield: anise85n_right
@@ -108,6 +114,12 @@ include:
     cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: anisectlp/nrf52840/zmk
     shield: anise60b_keyd_right
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85a_keyd_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: anisectlp/nrf52840/zmk
+    shield: anise85a_keyd_right
   - board: anisectlp/nrf52840/zmk
     shield: anise85n_left
   - board: anisectlp/nrf52840/zmk

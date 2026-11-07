@@ -131,6 +131,22 @@ PRESETS = {
     },
 }
 
+# The 85 is the 60b with an F-row on top, so its keyd layers are the 60b's
+# moved down a row. Its stock base already has keyd's Esc and Ctrl/Alt.
+PRESETS['anise85a_keyd'] = {
+    'base': 'anise85a',
+    'title': 'keyd',
+    'name': 'ANISE85A-KEYD',
+    'blurb': 'The 60b keyd remap on the 85: Backspace on backslash, Fn1 holds '
+             'symbols, arrows and F1-F12, Fn2 holds F-keys, Fn1+Fn2 is Fn3.',
+    'default_layer': {(2, 14): '&kp BSPC'},
+    'conditional_layers': PRESETS['anise60b_keyd']['conditional_layers'],
+    'extra_layers': [
+        (lname, display, {(r + 1, c): v for (r, c), v in overrides.items()})
+        for lname, display, overrides in PRESETS['anise60b_keyd']['extra_layers']
+    ],
+}
+
 
 def strip_comments(s):
     s = re.sub(r'/\*.*?\*/', ' ', s, flags=re.S)

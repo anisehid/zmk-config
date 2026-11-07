@@ -1,0 +1,5 @@
+config SHIELD_ANISE85A_KEYD_LEFT
+	def_bool $(shields_list_contains,anise85a_keyd_left)
+
+config SHIELD_ANISE85A_KEYD_RIGHT
+	def_bool $(shields_list_contains,anise85a_keyd_right)

@@ -1,0 +1,7 @@
+{
+  "base": "anise85a",
+  "preset": true,
+  "title": "keyd",
+  "blurb": "The 60b keyd remap on the 85: Backspace on backslash, Fn1 holds symbols, arrows and F1-F12, Fn2 holds F-keys, Fn1+Fn2 is Fn3.",
+  "artifact": "anise85a_keyd_left / anise85a_keyd_right"
+}
